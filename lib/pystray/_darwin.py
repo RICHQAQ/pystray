@@ -63,6 +63,8 @@ class Icon(_base.Icon):
         self._status_item.button().setTarget_(self._delegate)
         self._status_item.button().setAction_(self._ACTION_SELECTOR)
 
+        self._force_fullcolor = kwargs.get('darwin_force_fullcolor', False)
+
     def _show(self):
         self._assert_image()
         self._update_title()
@@ -180,6 +182,8 @@ class Icon(_base.Icon):
         self._icon_image = AppKit.NSImage.alloc().initWithData_(data)
         self._icon_image.setSize_(size)
         self._icon_image.setTemplate_(AppKit.YES)
+        if not self._force_fullcolor:
+            self._icon_image.setTemplate_(True)
         self._status_item.button().setImage_(self._icon_image)
 
     def _create_menu(self, descriptors, callbacks):
